@@ -31,30 +31,59 @@ function Game:init()
         :changeState("betting", self)
 end
 
+function Game:reset()
+    self.deck = Deck:new()
+    self.deck:shuffle()
+
+    self.player.hand = {}
+    self.player.bet = 0
+
+    self.dealer.hand = {}
+
+    self.state_machine:changeState("betting", self)
+end
+
 function Game:update(dt)
     -- Lógica de atualização (animações, etc.)
     if self.state_machine then
         self.state_machine:update(dt)
     end
+
+    for _, card in ipairs(self.player.hand) do
+        card:update(dt)
+    end
+
+    for _, card in ipairs(self.dealer.hand) do
+        card:update(dt)
+    end
+end
+
+function Game:getCenterHandLocation(hand)
+    return (love.graphics.getWidth() / 2) - ((#hand * 70) / 2)
 end
 
 function Game:draw()
+    local playerXLocation = self:getCenterHandLocation(self.player.hand)
+
     -- Desenha cartas do jogador e dealer
     for i, card in ipairs(self.player.hand) do
-        card.x = 100 + (i - 1) * 70
+        card.x = playerXLocation + (i - 1) * 70
         card.y = 400
         card:draw()
     end
 
+    local dealerXLocation = self:getCenterHandLocation(self.dealer.hand)
     for i, card in ipairs(self.dealer.hand) do
-        card.x = 100 + (i - 1) * 70
+        card.x = dealerXLocation + (i - 1) * 70
         card.y = 100
         card:draw()
     end
 
-    -- Mostra valor da mão
-    love.graphics.print("Player: " .. self.player:getHandValue(), 100, 370)
-    love.graphics.print("Dealer: " .. self.dealer:getHandValue(), 100, 70)
+    -- Debug
+    -- love.graphics.print("Player: " .. self.player:getHandValue(), 100, 370)
+    -- love.graphics.print("Dealer: " .. self.dealer:getHandValue(), 100, 70)
+    love.graphics.print("Player Money: " .. self.player.money, 30, 30)
+    love.graphics.print("Player Bet: " .. self.player.bet, 30, 50)
 
     if self.state_machine then
         self.state_machine:draw()

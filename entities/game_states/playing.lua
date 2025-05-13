@@ -1,3 +1,5 @@
+local SoundManager = require "utils.sound"
+
 local PlayingState = {}
 function PlayingState:new(game)
     local obj = {
@@ -12,16 +14,24 @@ function PlayingState:enter()
 end
 
 function PlayingState:draw()
-    local startPos = 400
-    love.graphics.print("H: to hit (request card)", startPos, 50)
-    love.graphics.print("S: to stand (stop and go to next phase)", startPos, 60)
-    love.graphics.print("R: to surrender (rollback half of the bet)", startPos, 70)
+    local startPos = 30
+    local bottom = love.graphics.getHeight() - 30
+
+    love.graphics.print("Z: to hit (request card)", startPos, bottom - 20)
+    love.graphics.print("X: to stand (stop and go to next phase)", startPos, bottom - 35)
+    love.graphics.print("C: to surrender (rollback half of the bet)", startPos, bottom - 50)
+end
+
+function PlayingState:playsound()
+    SoundManager.playButton()
 end
 
 function PlayingState:keypressed(key)
     local game = self.game
 
-    if key == "h" then
+    if key == "z" then
+        self:playsound()
+
         game.player:addCard(game.deck:drawCard():flipUp())
 
         if game.player:isBusted() then
@@ -29,13 +39,19 @@ function PlayingState:keypressed(key)
         end
     end
 
-    if key == "s" then
+    if key == "x" then
+        self:playsound()
+
         print("Finished. Stand")
         game.state_machine:changeState("dealer", game)
     end
 
-    if key == "r" then
+    if key == "c" then
+        self:playsound()
+
         print("Surrender")
+        game.player.money = game.player.money / 2
+        game:reset()
     end
 end
 

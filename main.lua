@@ -1,11 +1,15 @@
+local SoundManager = require "utils.sound"
+
 function love.load()
-    -- Carrega módulos
+    SoundManager.init()
+
+    love.graphics.setDefaultFilter("nearest", "nearest")
+
     require("entities.card")
     require("entities.deck")
     require("entities.player")
     require("entities.game")
 
-    -- Inicializa o jogo
     Game:init()
 end
 

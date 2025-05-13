@@ -1,3 +1,4 @@
+local SoundManager = require "utils.sound"
 Deck = {
     cards = {}
 }
@@ -27,5 +28,6 @@ function Deck:shuffle()
 end
 
 function Deck:drawCard()
+    SoundManager.playCardFlip()
     return table.remove(self.cards, 1)
 end

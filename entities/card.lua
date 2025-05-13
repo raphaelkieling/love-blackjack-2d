@@ -3,8 +3,9 @@ local love = require "love"
 Card = {
     suit = "",  -- "hearts", "diamonds", "clubs", "spades"
     value = "", -- "A", "2", ..., "10", "J", "Q", "K"
-    x = 0,      -- Posição na tela
+    x = 0,
     y = 0,
+    offsetY = 30,
     faceUp = false,
     sprite = nil
 }
@@ -15,7 +16,8 @@ function Card:new(suit, value)
         value = value,
         faceUp = false,
         w = 50,
-        h = 70
+        h = 70,
+        offsetY = 30,
     }
     setmetatable(obj, self)
     self.__index = self
@@ -28,8 +30,24 @@ function Card:flipUp()
 end
 
 function Card:load()
-    self.sprite = love.graphics.newImage("cards.png")
+    self.sprite = love.graphics.newImage("assets/cards.png")
     print("Loaded sprite")
+end
+
+function Card:getNumbericSuit()
+    if self.suit == "hearts" then
+        return 1
+    end
+
+    if self.suit == "diamonds" then
+        return 2
+    end
+
+    if self.suit == "spades" then
+        return 3
+    end
+
+    return 4
 end
 
 function Card:getNumericValue()
@@ -40,7 +58,7 @@ function Card:getNumericValue()
     elseif self.value == "Q" then
         return 12
     elseif self.value == "K" then
-        return 14
+        return 13
     else
         return tonumber(self.value)
     end
@@ -51,15 +69,32 @@ function Card:getFlipped()
     return quad
 end
 
-function Card:draw()
-    if not self.faceUp then
-        love.graphics.draw(self.sprite, self:getFlipped(), self.x, self.y)
-        return
-    end
-
+function Card:getFace()
     local x = self:getNumericValue() - 1
-    local y = 1
+    local y = self:getNumbericSuit()
 
     local quad = love.graphics.newQuad(self.w * x, y * self.h, self.w, self.h, self.sprite)
-    love.graphics.draw(self.sprite, quad, self.x, self.y)
+    return quad
+end
+
+function Card:update(dt)
+    if self.offsetY > 0 then
+        self.offsetY = self.offsetY + (0 - self.offsetY) * 10. * dt
+    else
+        self.offsetY = 0
+    end
+end
+
+function Card:exit()
+    self.offsetY = 30
+end
+
+function Card:draw()
+    -- Debug stuff
+    -- love.graphics.print(self.suit .. self.value, self.x, self.y - 50)
+    if not self.faceUp then
+        love.graphics.draw(self.sprite, self:getFlipped(), self.x, self.y + self.offsetY)
+    else
+        love.graphics.draw(self.sprite, self:getFace(), self.x, self.y + self.offsetY)
+    end
 end
