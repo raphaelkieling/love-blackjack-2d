@@ -53,6 +53,14 @@ function FinishingState:enter()
         game.player.money = game.player.money + bet
         -- Money remains unchanged
     end
+
+    if game.player.money >= 3000 then
+        TreeScene:changeScene("win")
+    end
+
+    if game.player.money <= 0 then
+        TreeScene:changeScene("lose")
+    end
 end
 
 function FinishingState:update(dt)

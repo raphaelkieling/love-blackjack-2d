@@ -1,32 +1,27 @@
 local Typewriter = require "utils/typewriter"
 
-Menu = {
-    banner = Typewriter:new("Welcome to Love Blackjack!", 0.01),
-    start_button = Typewriter:new("Start Game", 0.1),
-    quit_button = Typewriter:new("Quit Game", 0.1),
-    selectorIndex = 1
-}
+Lose = {}
 
-function Menu:load()
+function Lose:load()
     self.banner_font = love.graphics.newFont(32)
     self.font = love.graphics.newFont(16)
-    self.banner = Typewriter:new("Welcome to Love Blackjack!", 0.01)
-    self.start_button = Typewriter:new("Start Game", 0.1)
+    self.restart_game = Typewriter:new("Back to menu", 0.1)
     self.quit_button = Typewriter:new("Quit Game", 0.1)
     self.selectors = {
-        self.start_button,
+        self.restart_game,
         self.quit_button,
     }
+    self.banner = Typewriter:new("You lose :(", 0.01)
     self.selectorIndex = 1
 end
 
-function Menu:update(dt)
+function Lose:update(dt)
     self.banner:update(dt)
-    self.start_button:update(dt)
+    self.restart_game:update(dt)
     self.quit_button:update(dt)
 end
 
-function Menu:draw()
+function Lose:draw()
     love.graphics.setFont(self.banner_font)
 
     local w = (love.graphics.getWidth() / 2) - (self.banner:getWidth(self.banner_font) / 2)
@@ -35,7 +30,7 @@ function Menu:draw()
     self.banner:draw(w, h)
 
     love.graphics.setFont(self.font)
-    self.start_button:draw(w, h + 50)
+    self.restart_game:draw(w, h + 50)
     self.quit_button:draw(w, h + 75)
 
     if self.selectorIndex == 1 then
@@ -47,16 +42,17 @@ function Menu:draw()
     end
 end
 
-function Menu:keypressed(key)
+function Lose:keypressed(key)
     if key == "return" then
         if self.selectorIndex == 1 then
-            TreeScene:changeScene("game")
+            TreeScene:changeScene("menu")
+            return
         end
 
         if self.selectorIndex == 2 then
             love.event.quit()
+            return
         end
-        return
     end
 
     self.selectorIndex = self.selectorIndex + 1

@@ -94,7 +94,7 @@ function Game:draw()
     -- Debug
     -- love.graphics.print("Player: " .. self.player:getHandValue(), 100, 370)
     -- love.graphics.print("Dealer: " .. self.dealer:getHandValue(), 100, 70)
-    love.graphics.print("Player Money: " .. self.player.money, 30, 30)
+    love.graphics.print("Player Money: " .. self.player.money .. "/ 3.000", 30, 30)
     love.graphics.print("Player Bet: " .. self.player.bet, 30, 50)
 
     if self.state_machine then

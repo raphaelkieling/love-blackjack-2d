@@ -7,6 +7,7 @@ require("entities.deck")
 require("entities.player")
 require("scenes.game")
 require("scenes.menu")
+require("scenes.win")
 
 local crtShader
 local canvas
@@ -17,6 +18,7 @@ function love.load()
         :new()
         :addScene("menu", Menu)
         :addScene("game", Game)
+        :addScene("win", Win)
         :addScene("game_over", {})
         :changeScene("menu")
 
