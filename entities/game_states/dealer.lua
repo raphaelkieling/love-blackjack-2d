@@ -26,6 +26,8 @@ function DealerState:enter()
         end
     end
 
+    print(game.dealer:getHandValue())
+
     print("Dealer finished")
 
     game.state_machine:changeState("finishing")

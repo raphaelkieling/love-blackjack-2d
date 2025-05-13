@@ -50,7 +50,7 @@ function PlayingState:keypressed(key)
         self:playsound()
 
         print("Surrender")
-        game.player.money = game.player.money / 2
+        game.player.money = game.player.money + (game.player.bet / 2)
         game:reset()
     end
 end

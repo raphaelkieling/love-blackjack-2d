@@ -31,19 +31,16 @@ function Player:getHandValue()
     local aces = 0
 
     for _, card in ipairs(self.hand) do
-        if card.faceUp then
-            if card.value == "A" then
-                value = value + 11
-                aces = aces + 1
-            elseif card.value == "J" or card.value == "Q" or card.value == "K" then
-                value = value + 10
-            else
-                value = value + tonumber(card.value)
-            end
+        if card.value == "A" then
+            value = value + 11
+            aces = aces + 1
+        elseif card.value == "J" or card.value == "Q" or card.value == "K" then
+            value = value + 10
+        else
+            value = value + tonumber(card.value)
         end
     end
 
-    -- Ajusta Ás se estourar
     while value > 21 and aces > 0 do
         value = value - 10
         aces = aces - 1

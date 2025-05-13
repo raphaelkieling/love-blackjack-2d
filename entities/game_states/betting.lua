@@ -2,7 +2,7 @@ local BettingState = {}
 function BettingState:new(game)
     local obj = {
         game = game,
-        cardDealDelay = 0.1,
+        cardDealDelay = 0.2,
         currentStep = 0,
         timer = 0
 

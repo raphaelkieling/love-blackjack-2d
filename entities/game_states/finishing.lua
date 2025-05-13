@@ -36,10 +36,8 @@ function FinishingState:enter()
         game.player.money = game.player.money + (bet * 2.5) -- Original bet + 1.x
     elseif dealerBlackjack and not playerBlackjack then
         self.conclusion = "Dealer got Blackjack! Player loses"
-        game.player.money = game.player.money - bet
     elseif playerValue > 21 then
         self.conclusion = "Player busts! Dealer wins"
-        game.player.money = game.player.money - bet
     elseif dealerValue > 21 then
         self.conclusion = "Dealer busts! Player wins"
         SoundManager:playRewards()
@@ -50,9 +48,9 @@ function FinishingState:enter()
         game.player.money = game.player.money + (bet * 2)
     elseif playerValue < dealerValue then
         self.conclusion = "Dealer wins with higher hand"
-        game.player.money = game.player.money - bet
     else
         self.conclusion = "Push (tie)! Bet returned"
+        game.player.money = game.player.money + bet
         -- Money remains unchanged
     end
 end
