@@ -38,10 +38,9 @@ function BettingState:update(dt)
             game.player:addCard(game.deck:drawCard():flipUp())
             self.currentStep = 4
         elseif self.currentStep == 4 then
-            game.dealer:addCard(game.deck:drawCard()) -- Carta do dealer virada para baixo
+            game.dealer:addCard(game.deck:drawCard())
             self.currentStep = 5
         elseif self.currentStep == 5 then
-            -- Todas as cartas foram distribuídas, muda para o estado de jogo
             game.state_machine:changeState("playing", game)
         end
     end

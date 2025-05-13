@@ -1,4 +1,5 @@
 local DealerState = {}
+
 function DealerState:new(game)
     local obj = {
         game = game
@@ -25,8 +26,6 @@ function DealerState:enter()
             break
         end
     end
-
-    print(game.dealer:getHandValue())
 
     print("Dealer finished")
 

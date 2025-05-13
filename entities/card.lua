@@ -31,7 +31,6 @@ end
 
 function Card:load()
     self.sprite = love.graphics.newImage("assets/cards.png")
-    print("Loaded sprite")
 end
 
 function Card:getNumbericSuit()
@@ -78,10 +77,11 @@ function Card:getFace()
 end
 
 function Card:update(dt)
-    if self.offsetY > 0 then
+    if self.offsetY > 0.1 then
         self.offsetY = self.offsetY + (0 - self.offsetY) * 10. * dt
     else
         self.offsetY = 0
+        self.y = self.y + (math.sin(love.timer.getTime() * 3)) * 0.1
     end
 end
 

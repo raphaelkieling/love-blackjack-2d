@@ -13,11 +13,21 @@ Game = {
     state_machine = StateMachine:new()
 }
 
-function Game:init()
+function Game:load()
     self.deck = Deck:new()
     self.deck:shuffle()
-    self.player = Player:new()
-    self.dealer = Player:new()
+    self.player = Player:new({
+        handPos = {
+            x = 0,
+            y = 400
+        }
+    })
+    self.dealer = Player:new({
+        handPos = {
+            x = 0,
+            y = 100
+        }
+    })
 
     self.dealer:load()
     self.player:load()
@@ -63,21 +73,23 @@ function Game:getCenterHandLocation(hand)
 end
 
 function Game:draw()
+    love.graphics.clear(love.graphics.getBackgroundColor())
+    love.graphics.setBackgroundColor(255, 255, 255)
+
     local playerXLocation = self:getCenterHandLocation(self.player.hand)
 
-    -- Desenha cartas do jogador e dealer
     for i, card in ipairs(self.player.hand) do
         card.x = playerXLocation + (i - 1) * 70
-        card.y = 400
         card:draw()
     end
 
     local dealerXLocation = self:getCenterHandLocation(self.dealer.hand)
     for i, card in ipairs(self.dealer.hand) do
         card.x = dealerXLocation + (i - 1) * 70
-        card.y = 100
         card:draw()
     end
+
+    love.graphics.setColor(0, 0, 0)
 
     -- Debug
     -- love.graphics.print("Player: " .. self.player:getHandValue(), 100, 370)
@@ -88,6 +100,8 @@ function Game:draw()
     if self.state_machine then
         self.state_machine:draw()
     end
+
+    love.graphics.setColor(1, 1, 1)
 end
 
 function Game:keypressed(key)

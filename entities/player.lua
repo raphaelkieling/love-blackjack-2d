@@ -1,20 +1,24 @@
 Player = {
     hand = {},
     money = 1000,
-    bet = 0
+    bet = 0,
+    handPos = { x = 0, y = 0 }
 }
 
 function Player:load()
 end
 
-function Player:new()
-    local obj = { hand = {}, money = 1000, bet = 0 }
+function Player:new(params)
+    local obj = { hand = {}, money = 1000, bet = 0, handPos = params.handPos }
     setmetatable(obj, self)
     self.__index = self
     return obj
 end
 
 function Player:addCard(card)
+    card.x = self.handPos.x
+    card.y = self.handPos.y
+
     table.insert(self.hand, card)
 end
 
