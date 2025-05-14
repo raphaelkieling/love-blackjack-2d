@@ -1,3 +1,4 @@
+local love = require "love"
 local StateMachine = require "utils.state_machine"
 
 -- States

@@ -1,3 +1,4 @@
+local love = require "love"
 local Typewriter = require "utils/typewriter"
 
 Lose = {}
